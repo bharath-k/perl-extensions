@@ -14,3 +14,4 @@ Also SWIG documentation is your friend.
 
 Useful links:
 http://stackoverflow.com/questions/6493322/getting-6-errors-when-compiling-the-wrapper-module-output-by-swig
+http://docstore.mik.ua/orelly/perl/advprog/ch20_03.htm
