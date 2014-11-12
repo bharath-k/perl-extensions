@@ -13,5 +13,6 @@ http://perldoc.perl.org/perlxs.html
 Also SWIG documentation is your friend.
 
 Useful links:
+http://www.perlmonks.org/?node_id=879205 => A basic implementation of Extensions using inline C
 http://stackoverflow.com/questions/6493322/getting-6-errors-when-compiling-the-wrapper-module-output-by-swig
 http://docstore.mik.ua/orelly/perl/advprog/ch20_03.htm
