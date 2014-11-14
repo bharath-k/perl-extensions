@@ -4,15 +4,18 @@ http://perldoc.perl.org/perlguts.html
 http://perldoc.perl.org/perlxstut.html
 http://perldoc.perl.org/perlxs.html
 
-* The xsubpp program uses rules to convert from Perl's data types (scalar, array, etc.) to C's data types (int, char, etc.). These rules are stored in the typemap file ($PERLLIB/ExtUtils/typemap). 
-* Type "perl -V" to find out value of PERLLIB => /usr/share/perl5/ExtUtils/typemap. This file has all the required C modules accessed.
+* The xsubpp program uses rules to convert from Perl's data types (scalar, array, etc.) 
+to C's data types (int, char, etc.). These rules are stored in the typemap file ($PERLLIB/ExtUtils/typemap). 
+* Type "perl -V" to find out value of PERLLIB => /usr/share/perl5/ExtUtils/typemap. This file has all the required C
+modules accessed.
 * Also find out where perl.h is coming from:
-  $(PERL_INC)/perl.h => /usr/lib64/perl5/CORE/perl.h
-  This means that hashtable impl of perl is defined in /usr/lib64/perl5/CORE/hv.h. And perl array comes from /usr/lib64/perl5/CORE/av.h.
+    $(PERL_INC)/perl.h => /usr/lib64/perl5/CORE/perl.h
+  This means that hashtable impl of perl is defined in /usr/lib64/perl5/CORE/hv.h.
+  And perl array comes from /usr/lib64/perl5/CORE/av.h.
 
 Also SWIG documentation is your friend.
 
 Useful links:
 http://www.perlmonks.org/?node_id=879205 => A basic implementation of Extensions using inline C
-http://stackoverflow.com/questions/6493322/getting-6-errors-when-compiling-the-wrapper-module-output-by-swig
-http://docstore.mik.ua/orelly/perl/advprog/ch20_03.htm
+http://stackoverflow.com/questions/6493322/getting-6-errors-when-compiling-the-wrapper-module-output-by-swig => If you are using an old version of SWIG.
+http://docstore.mik.ua/orelly/perl/advprog/ch20_03.htm 
