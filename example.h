@@ -17,25 +17,9 @@ struct myservice {
 typedef struct myservice MYService;
 
 /*
- * Returns index element of array .
- */
-MYService *get_index_value(MYService **service_array, int index);
-
-
-/*
- * Returns the number of entries.
- */
-int get_count(MYService **service_array);
-
-/*
  * Returns a MYService structure.
  */
 MYService *get_service();
-
-/*
- * Returns a string.
- */
-char *get_string(int intVal);
 
 /*
  * Returns a MYService array.

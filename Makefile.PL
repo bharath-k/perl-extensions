@@ -1,6 +1,6 @@
 use ExtUtils::MakeMaker;
 WriteMakefile(
-  NAME    => 'example',
+  NAME    => '_example',
   LIBS    => ['-lm'],
-  OBJECT  => 'example.o example_wrap.o'
+  OBJECT  => 'example.o _example_wrap.o'
 );

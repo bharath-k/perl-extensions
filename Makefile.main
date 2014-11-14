@@ -1,10 +1,10 @@
 all:
 	swig -perl -I. example.i
-	gcc -fPIC -c example_wrap.c -o example_wrap.o -Dbool=char -lsvc -I/usr/lib64/perl5/CORE/ -I/usr/include/
+	gcc -fPIC -c example_wrap.c -o _example_wrap.o -Dbool=char -I/usr/lib64/perl5/CORE/ -I/usr/include/
 	perl Makefile.PL
 	make
 clean:
-	/bin/rm pm_to_blib example_wrap.c example_wrap.o example.pm
-	/bin/rm -Rf blib example.bs
+	/bin/rm pm_to_blib example_wrap.c _example_wrap.o _example.pm example.o _example.bs
+	/bin/rm -Rf blib
 dos2unix:
 	/usr/bin/dos2unix *.c *.h Makefile.* *.i

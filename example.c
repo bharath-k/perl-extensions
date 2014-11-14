@@ -22,14 +22,6 @@ get_service()
     return service;
 }
 
-
-char *get_string(int intVal)
-{
-    char *strval = calloc(20, sizeof(char *));
-    strcpy(strval, "test1 string");
-    return strval;
-}
-
 MYService **
 get_service_array()
 {
@@ -54,6 +46,7 @@ fillup_service(int fail, MYService **servicePointer)
 int
 fillup_service_array(int fail, MYService ***serviceArrayPointer)
 {
+    *serviceArrayPointer = NULL;
     if(fail == 0)
     {
         // Set the value at address...
@@ -61,21 +54,6 @@ fillup_service_array(int fail, MYService ***serviceArrayPointer)
         return 0;
     }
     else return 1;
-}
-
-MYService *get_index_value(MYService **service_array, int index)
-{
-    return service_array[index];
-}
-
-int get_count(MYService **service_array)
-{
-    int index = 0;
-    while(service_array[index] != NULL)
-    {
-        index++;
-    }
-    return index;
 }
 
 int

@@ -1,4 +1,4 @@
-# This Makefile is for the example extension to perl.
+# This Makefile is for the _example extension to perl.
 #
 # It was generated automatically by MakeMaker version
 # 6.55_02 (Revision: 65502) from the contents of
@@ -13,8 +13,8 @@
 
 #     BUILD_REQUIRES => {  }
 #     LIBS => [q[-lm]]
-#     NAME => q[example]
-#     OBJECT => q[example.o example_wrap.o]
+#     NAME => q[_example]
+#     OBJECT => q[example.o _example_wrap.o]
 #     PREREQ_PM => {  }
 
 # --- MakeMaker post_initialize section:
@@ -39,7 +39,7 @@ LIBC =
 LIB_EXT = .a
 OBJ_EXT = .o
 OSNAME = linux
-OSVERS = 2.6.18-348.12.1.el5
+OSVERS = 2.6.18-398.el5
 RANLIB = :
 SITELIBEXP = /usr/local/share/perl5
 SITEARCHEXP = /usr/local/lib64/perl5
@@ -52,8 +52,8 @@ VENDORLIBEXP = /usr/share/perl5/vendor_perl
 AR_STATIC_ARGS = cr
 DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
-NAME = example
-NAME_SYM = example
+NAME = _example
+NAME_SYM = _example
 VERSION = 
 VERSION_MACRO = VERSION
 VERSION_SYM = 
@@ -142,12 +142,12 @@ MM_REVISION = 65502
 # PARENT_NAME = NAME without BASEEXT and no trailing :: (eg Foo::Bar)
 # DLBASE  = Basename part of dynamic library. May be just equal BASEEXT.
 MAKE = make
-FULLEXT = example
-BASEEXT = example
+FULLEXT = _example
+BASEEXT = _example
 PARENT_NAME = 
 DLBASE = $(BASEEXT)
 VERSION_FROM = 
-OBJECT = example$(OBJ_EXT) example_wrap$(OBJ_EXT)
+OBJECT = example$(OBJ_EXT) _example_wrap$(OBJ_EXT)
 LDFROM = $(OBJECT)
 LINKTYPE = dynamic
 BOOTDEP = 
@@ -182,10 +182,13 @@ PERL_ARCHIVE       =
 PERL_ARCHIVE_AFTER = 
 
 
-TO_INST_PM = example.pm
+TO_INST_PM = _example.pm \
+	example.pm
 
 PM_TO_BLIB = example.pm \
-	$(INST_LIB)/example.pm
+	$(INST_LIB)/example.pm \
+	_example.pm \
+	$(INST_LIB)/_example.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -261,8 +264,8 @@ CI = ci -u
 RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
-DISTNAME = example
-DISTVNAME = example-
+DISTNAME = _example
+DISTVNAME = _example-
 
 
 # --- MakeMaker macro section:
@@ -281,7 +284,7 @@ MPOLLUTE =
 
 # --- MakeMaker const_loadlibs section:
 
-# example might depend on some other libraries:
+# _example might depend on some other libraries:
 # See ExtUtils::Liblist for details
 #
 EXTRALIBS = 
@@ -565,7 +568,7 @@ realclean purge ::  clean realclean_subdirs
 metafile : create_distdir
 	$(NOECHO) $(ECHO) Generating META.yml
 	$(NOECHO) $(ECHO) '--- #YAML:1.0' > META_new.yml
-	$(NOECHO) $(ECHO) 'name:               example' >> META_new.yml
+	$(NOECHO) $(ECHO) 'name:               _example' >> META_new.yml
 	$(NOECHO) $(ECHO) 'version:            ' >> META_new.yml
 	$(NOECHO) $(ECHO) 'abstract:           ~' >> META_new.yml
 	$(NOECHO) $(ECHO) 'author:  []' >> META_new.yml
@@ -940,7 +943,8 @@ ppd :
 
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
-	  example.pm $(INST_LIB)/example.pm 
+	  example.pm $(INST_LIB)/example.pm \
+	  _example.pm $(INST_LIB)/_example.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

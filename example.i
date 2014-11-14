@@ -1,5 +1,5 @@
 // example.i
-%module example
+%module _example
 %{
 #include "example.h"
 %}
@@ -10,25 +10,35 @@
 // That way swig will know what to do with the methods when it actually encounters them.
 %typemap(out) MYService *
 {
-    $result = SWIG_FromCharPtr("Test String"); argvi++ ;
+    // '$1' points to output value of the function i.e. MyService entry returned from the function.
+    $result = SWIG_FromCharPtr($1->stringEntry); argvi++ ;
     free($1);
 }
 
-// -------------------------- get_service_array -----------------------------
 %typemap(out) MYService **
 {
-    AV* arr = newAV();
-    int index = 0;
-    while($1[index] != NULL)
+    if($1 != NULL)
     {
-        MYService *service = $1[index++];
-        av_push(arr, SWIG_FromCharPtr(service->stringEntry));
-        free(service);
+        AV* arr = newAV();
+        int index = 0;
+        while($1[index] != NULL)
+        {
+            MYService *service = $1[index++];
+            // It is important that the string is NOT converted into a mortal value.
+            // as the av_push anyways steals the reference.
+            av_push(arr, newSVpv(service->stringEntry, strlen(service->stringEntry)));
+            free(service);
+        }
+        // We need a mortal reference value. i.e. the ownership of this array
+        // is passed to the perl stack.
+        $result = newRV(sv_2mortal((SV *)arr)); argvi++;
+        free($1);
     }
-    // We need a mortal reference value. i.e. the ownership of this array
-    // is passed to the perl stack.
-    $result = newRV(sv_2mortal((SV *)arr)); argvi++;
-    free($1);
+    else
+    {
+        // Note that there is no need to increment argvi here.
+        $result = &PL_sv_undef;
+    }
 }
 
 // -------------------------- fillup_service --------------------------------
@@ -39,17 +49,16 @@
     // Convert the return value of fillup_service to integer again
     // Using ST(0) instead of ($)result since the argvi would have already been incremented
     // after the fillup_service call.
-    // Using SWIG's own api to convert value to integer.
-    int retValue = -1;
-    int errorCodeVal = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &retValue);
+    // Convert the value to integer again.
+    // Using ST(0) instead of ($)result since the argvi is already incremented.
+    int retValue = (int)SvNV(ST(0));
     if(retValue == 0)
     {
         // ($)result gets expanded to ST(argvi). And since the first call to method fillup_service
-        // would have incremented argvi, we need to decrement it again to fetch set result correctly.
-        argvi--;
+        // would have incremented argvi, we need to set it again and then increment to set results
+        // correctly to stack.
         MYService *service = (MYService *)temp$argnum;
-        $result = SWIG_FromCharPtr(service->stringEntry);
-        // Once our work is done, we have to increment argvi again.
+        ST(argvi) = SWIG_FromCharPtr(service->stringEntry);
         argvi++;
         free(temp$argnum);
     }
@@ -57,7 +66,9 @@
     {
         // Don't try freeing $result!! Leads to seg fault.
         // free($result);
-        // TODO: Throw error here
+        // Set undef as the return value.
+        ST(argvi) = &PL_sv_undef;
+        argvi++;
     }
 }
 
@@ -74,9 +85,8 @@
 %typemap(argout) MYService ***serviceArrayPointer
 {
     // Convert the value to integer again.
-    int retValue = -1;
     // Using ST(0) instead of ($)result since the argvi is already incremented.
-    int errorCodeVal = SWIG_AsVal_int SWIG_PERL_CALL_ARGS_2(ST(0), &retValue);
+    int retValue = (int)SvNV(ST(0));
     if(retValue == 0)
     {
         AV* arr = newAV();
@@ -84,21 +94,25 @@
         while(temp$argnum[index] != NULL)
         {
             MYService *service = temp$argnum[index++];
-            av_push(arr, SWIG_FromCharPtr(service->stringEntry));
+            // It is important that the string is NOT converted into a mortal value.
+            // as the av_push anyways steals the reference.
+            av_push(arr, newSVpv(service->stringEntry, strlen(service->stringEntry)));
             free(service);
         }
-        free(temp$argnum);
         // We need a mortal reference value. i.e. the ownership of this array
         // is passed to the perl stack.
-        argvi--;
-        $result = newRV(sv_2mortal((SV *)arr));
+        ST(argvi) = newRV(sv_2mortal((SV *)arr));
         argvi++;
+        // free($1);
     }
     else
     {
         // Don't try freeing $result!! Leads to seg fault.
         // free($result);
-        // TODO: Throw error here
+
+        // Set undef as next entry in stack
+        ST(argvi) = &PL_sv_undef;
+        argvi++;
     }
 }
 
