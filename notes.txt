@@ -19,4 +19,7 @@ Useful links:
 http://www.perlmonks.org/?node_id=853194 => Good article on perl extensions
 http://www.perlmonks.org/?node_id=879205 => A basic implementation of Extensions using inline C
 http://stackoverflow.com/questions/6493322/getting-6-errors-when-compiling-the-wrapper-module-output-by-swig => If you are using an old version of SWIG.
-http://docstore.mik.ua/orelly/perl/advprog/ch20_03.htm 
+http://docstore.mik.ua/orelly/perl/advprog/ch20_03.htm
+
+Useful books:
+Extending and Embedding Perl
